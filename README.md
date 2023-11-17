@@ -13,30 +13,58 @@ Firebase Authentication for user authentication.
 
 Folder Structure:
 
-src/screens: Contains the different screens of the application.
-src/navigation: Manages the navigation flow of the app.
-src/firebaseConfig.js: Manages the Firebase configuration.
-
+plaintext
+Copy code
+/project-root
+│
+├── /src
+│   ├── /screens
+│   │   ├── AddTaskScreen.js
+│   │   ├── HomeScreen.js
+│   │   ├── LoginScreen.js
+│   │   ├── RegisterScreen.js
+│   │   └── TaskListScreen.js
+│   ├── /navigation
+│   │   └── AppNavigator.js
+│   └── firebaseConfig.js
+│
+├── App.js
+├── package.json
+└── ...
 Key Features:
 
-User Authentication: Use Firebase Authentication for user login and registration.
-Task Management: Allow users to add, edit, and delete tasks.
-Deadline and Priority: Implement features for setting deadlines and priority levels for tasks.
-Data Storage: Use Firebase Firestore for storing and retrieving user-specific task data.
-Security: Utilize Expo SecureStore for securely storing sensitive data.
+User Authentication: Utilize Firebase Authentication for secure user login and registration.
+
+Task Management: Enable users to add, edit, and delete tasks with features like setting deadlines and priority levels.
+
+Deadline and Priority: Implement functionalities for users to set deadlines and prioritize tasks.
+
+Data Storage: Utilize Firebase Firestore to securely store and retrieve user-specific task data.
+
+Security: Enhance security by utilizing Expo SecureStore for the secure storage of sensitive data.
+
 
 Steps Completed So Far:
 
 Project Initialization: Created a new React Native project using Expo.
+
 Navigation Setup: Configured the navigation structure using React Navigation.
+
 Screens Creation: Developed screens for Home, AddTask, TaskDetail, SignIn, and SignUp.
+
 Firebase Integration: Integrated Firebase with the project using firebaseConfig.js.
+
 Authentication API: Implemented Firebase Authentication for user login and registration.
+
 
 Next Steps:
 
-Refactor Home.js based on the provided MainScreen.js.
-Remove or refactor the index.js file as needed.
-Review and adjust the file structure if necessary.
-Continue with the implementation of task management features using Firebase Firestore.
-Address any errors or issues encountered during development.
+Refactor Home.js: Based on the provided MainScreen.js, update the Home.js screen for improved functionality.
+
+Remove or Refactor index.js: Assess the need for the index.js file and refactor or remove it accordingly.
+
+Review and Adjust File Structure: Ensure the file structure is optimal; make adjustments as necessary.
+
+Continue Implementation: Progress with the implementation of task management features using Firebase Firestore.
+
+Error Handling: Address any errors or issues encountered during development for a smooth user experience.

@@ -1,29 +1,62 @@
 // src/screens/AddTaskScreen.js
-import React, { useState, useEffect, useReducer, useRef } from 'react';
+import React, { useState } from 'react';
 import { View, Text, Button, TextInput, StyleSheet } from 'react-native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { format } from 'date-fns';
+import { getAuth } from 'firebase/auth';
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
+import { firestore } from '../../firebaseConfig';
 
 const AddTaskScreen = ({ navigation }) => {
-    const [title, setTitle] = useState('');
-    const [details, setDetails] = useState('');
-    const [date, setDate] = useState(new Date());
-    const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-    const [selectedDateString, setSelectedDateString] = useState('');
+  const [title, setTitle] = useState('');
+  const [details, setDetails] = useState('');
+  const [date, setDate] = useState(new Date());
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const [selectedDateString, setSelectedDateString] = useState('');
 
-  const showDatePicker = () => {
-    setDatePickerVisibility(true);
-  };
-
-  const hideDatePicker = () => {
-    setDatePickerVisibility(false);
-  };
+  const showDatePicker = () => setDatePickerVisibility(true);
+  const hideDatePicker = () => setDatePickerVisibility(false);
 
   const handleConfirm = (selectedDate) => {
     hideDatePicker();
     if (selectedDate) {
       setDate(selectedDate);
-      setSelectedDateString(format(selectedDate, "yyyy-MM-dd HH:mm"));
+      setSelectedDateString(format(selectedDate, 'yyyy-MM-dd HH:mm'));
+    }
+  };
+
+  const saveTask = async () => {
+    try {
+      const auth = getAuth();
+      const user = auth.currentUser;
+
+      if (!user) {
+        console.log('User not logged in');
+        return;
+      }
+
+      const taskData = {
+        title,
+        details,
+        date: serverTimestamp(),
+        userId: user.uid,
+      };
+
+      const tasksCollection = collection(firestore, 'tasks');
+
+      // Use `addDoc` to automatically generate a unique ID for the new task
+      await addDoc(tasksCollection, taskData);
+
+      // Reset form fields
+      setTitle('');
+      setDetails('');
+      setDate(new Date());
+      setSelectedDateString('');
+
+      // Navigate back to the home screen or any other desired screen
+      navigation.navigate('TaskList');
+    } catch (error) {
+      console.error('Error saving task:', error);
     }
   };
 
@@ -43,6 +76,7 @@ const AddTaskScreen = ({ navigation }) => {
         placeholder="Enter task details"
         value={details}
         onChangeText={setDetails}
+        multiline={true}
       />
 
       <Text style={styles.label}>Task Date</Text>
@@ -61,7 +95,7 @@ const AddTaskScreen = ({ navigation }) => {
         )}
       </View>
 
-      <Button title="Save Task" onPress={() => console.log('Save Task')} />
+      <Button title="Save Task" onPress={saveTask} />
     </View>
   );
 };
@@ -71,7 +105,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
   },
-
+  
   label: {
     fontSize: 18,
     marginBottom: 8,
@@ -97,11 +131,11 @@ const styles = StyleSheet.create({
   },
 
   selectedDateText: {
-    marginTop: 20, // Add space at the top
+    marginTop: 20,
     marginBottom: 20,
-    fontSize: 20, // Increase font size
+    fontSize: 20,
     color: 'blue',
-    textAlign: 'center', // Center the text horizontally
+    textAlign: 'center',
   },
 });
 
