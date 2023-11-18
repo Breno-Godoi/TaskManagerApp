@@ -85,6 +85,7 @@ const AddTaskScreen = ({ navigation }) => {
         <DateTimePickerModal
           isVisible={isDatePickerVisible}
           mode="datetime"
+          
           onConfirm={handleConfirm}
           onCancel={hideDatePicker}
         />

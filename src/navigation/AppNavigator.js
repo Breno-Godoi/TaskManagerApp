@@ -9,6 +9,8 @@ import HomeScreen from '../screens/HomeScreen';
 import AddTaskScreen from '../screens/AddTaskScreen';
 import TaskListScreen from '../screens/TaskListScreen';
 import RegisterScreen from '../screens/RegisterScreen';
+import TaskDetailsScreen from '../screens/TaskDetailsScreen';
+import EditTaskScreen from '../screens/EditTaskScreen';
 
 // Create a stack navigator for your app
 const AppStack = createStackNavigator();
@@ -22,6 +24,8 @@ const SwitchNavigator = () => (
       <AppStack.Screen name="TaskList" component={TaskListScreen} />
       <AppStack.Screen name="AddTask" component={AddTaskScreen} />
       <AppStack.Screen name="Register" component={RegisterScreen} />
+      <AppStack.Screen name="TaskDetails" component={TaskDetailsScreen} />
+      <AppStack.Screen name="EditTask" component={EditTaskScreen} />
     </AppStack.Navigator>
   </NavigationContainer>
 );

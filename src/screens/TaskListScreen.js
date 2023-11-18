@@ -11,6 +11,7 @@ import {
 import { getAuth } from "firebase/auth";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { firestore } from "../../firebaseConfig";
+import { useFocusEffect } from "@react-navigation/native";
 
 const TaskListScreen = ({ navigation }) => {
   const [tasks, setTasks] = useState([]);
@@ -56,12 +57,24 @@ const TaskListScreen = ({ navigation }) => {
         });
 
         setTasks(tasksData);
-        console.log('Tasks Data:', tasksData);
+        console.log("Tasks Data:", tasksData);
       }
     };
 
     fetchTasks();
   }, []);
+
+  // Use the useFocusEffect hook to fetch tasks when the screen is focused
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchTasks();
+    }, [])
+  );
+
+  const handleTaskPress = (taskId) => {
+    // Navigate to TaskDetailScreen with taskId as a parameter
+    navigation.navigate("TaskDetail", { taskId });
+  };
 
   return (
     <View style={styles.container}>
@@ -72,13 +85,17 @@ const TaskListScreen = ({ navigation }) => {
           data={tasks}
           keyExtractor={(task) => task.id}
           renderItem={({ item }) => (
-            <View style={styles.taskContainer}>
-              <Text style={styles.title}>{item.title}</Text>
-              <Text style={styles.description}>{item.details}</Text>
-              <Text style={styles.date}>
-                Date: {item.date.toDate().toLocaleString()}
-              </Text>
-            </View>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("TaskDetails", { task: item })}
+            >
+              <View style={styles.taskContainer}>
+                <Text style={styles.title}>{item.title}</Text>
+                <Text style={styles.description}>{item.details}</Text>
+                <Text style={styles.date}>
+                  Date: {item.date.toDate().toLocaleString()}
+                </Text>
+              </View>
+            </TouchableOpacity>
           )}
         />
       )}
