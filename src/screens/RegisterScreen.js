@@ -54,7 +54,7 @@ const RegisterScreen = ({ navigation }) => {
       setPassword("");
     } catch (error) {
       console.error("Error registering user:", error);
-      Alert.alert("Error registering user:", error.message);
+      Alert.alert("Registration Failed", "Unable to register. Please try again.");
     }
   };
 

@@ -3,7 +3,7 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-// Import your screens
+// Import screens
 import LoginScreen from '../screens/LoginScreen';
 import AddTaskScreen from '../screens/AddTaskScreen';
 import TaskListScreen from '../screens/TaskListScreen';
@@ -11,7 +11,7 @@ import RegisterScreen from '../screens/RegisterScreen';
 import TaskDetailsScreen from '../screens/TaskDetailsScreen';
 import EditTaskScreen from '../screens/EditTaskScreen';
 
-// Create a stack navigator for your app
+// Create a stack navigator
 const AppStack = createStackNavigator();
 
 // Create the main switch navigator

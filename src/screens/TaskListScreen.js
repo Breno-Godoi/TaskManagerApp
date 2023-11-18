@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
 
   backToLoginButton: {
     backgroundColor: "#FF4A45",
-    paddingVertical: 12,
+    paddingVertical: 15,
     alignItems: "center",
     borderWidth: 2,
     borderRadius: 8,

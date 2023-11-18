@@ -14,7 +14,7 @@ const LoginScreen = ({ navigation }) => {
       navigation.navigate("TaskList");
     } catch (error) {
       console.error("Error logging in:", error);
-      Alert.alert("Error logging in:", error.message);
+      Alert.alert("Authentication Failed", "Invalid email or password.");
     }
   };
 
