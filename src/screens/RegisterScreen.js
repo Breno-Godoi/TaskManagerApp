@@ -1,25 +1,33 @@
 // src/screens/RegisterScreen.js
-import React, { useState } from 'react';
-import { View, Text, TextInput, Button, Alert, StyleSheet } from 'react-native';
-import { createUserWithEmailAndPassword, getAuth, updateProfile } from 'firebase/auth';
-import { auth, firestore } from '../../firebaseConfig'; // Update the path accordingly
-import { doc, setDoc } from 'firebase/firestore';
+import React, { useState, useEffect } from "react";
+import { View, Text, TextInput, Button, Alert, StyleSheet } from "react-native";
+import {
+  createUserWithEmailAndPassword,
+  getAuth,
+  updateProfile,
+} from "firebase/auth";
+import { auth, firestore } from "../../firebaseConfig";
+import { doc, setDoc } from "firebase/firestore";
 
 const RegisterScreen = ({ navigation }) => {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleRegister = async () => {
     try {
       if (!firstName || !lastName || !email || !password) {
-        Alert.alert('All fields are required.');
+        Alert.alert("All fields are required.");
         return;
       }
 
       const auth = getAuth();
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
 
       const user = userCredential.user;
 
@@ -35,20 +43,33 @@ const RegisterScreen = ({ navigation }) => {
       };
 
       // Explicitly reference the Firestore instance, the "users" collection, and the user's document
-      const userDocRef = doc(firestore, 'users', user.uid);
+      const userDocRef = doc(firestore, "users", user.uid);
 
       await setDoc(userDocRef, userData);
 
-      Alert.alert('User registered!');
-      setFirstName('');
-      setLastName('');
-      setEmail('');
-      setPassword('');
+      Alert.alert("User registered!");
+      setFirstName("");
+      setLastName("");
+      setEmail("");
+      setPassword("");
     } catch (error) {
-      console.error('Error registering user:', error);
-      Alert.alert('Error registering user:', error.message);
+      console.error("Error registering user:", error);
+      Alert.alert("Error registering user:", error.message);
     }
   };
+
+  useEffect(() => {
+    // Set headerShown to false to hide the navigation header
+    navigation.setOptions({
+      headerShown: true,
+      headerTitle: "Back", // Change the header title to 'Back'
+      headerTitleStyle: {
+        fontSize: 20,
+        fontWeight: "bold",
+        color: "#4364E6",
+      },
+    });
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -78,7 +99,7 @@ const RegisterScreen = ({ navigation }) => {
         value={password}
         onChangeText={setPassword}
       />
-      <Button title="Register" onPress={handleRegister} color="black" />
+      <Button title="Register" onPress={handleRegister} color="#4364E6" />
     </View>
   );
 };
@@ -90,13 +111,16 @@ const styles = StyleSheet.create({
     marginTop: 60,
   },
   title: {
-    fontSize: 20,
+    fontSize: 25,
     marginBottom: 20,
+    fontWeight: "bold",
+    color: "#4364E6",
   },
   input: {
-    height: 40,
-    borderColor: '#ccc',
-    borderWidth: 1,
+    height: 45,
+    borderColor: "#4364E6",
+    borderWidth: 2,
+    borderRadius: 8,
     marginBottom: 20,
     padding: 10,
   },

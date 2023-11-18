@@ -64,22 +64,29 @@ const TaskListScreen = ({ navigation }) => {
     fetchTasks();
   }, []);
 
-  // Use the useFocusEffect hook to fetch tasks when the screen is focused
+  // Using the useFocusEffect hook to fetch tasks when the screen is focused (loaded)
   useFocusEffect(
     React.useCallback(() => {
       fetchTasks();
     }, [])
   );
 
-  const handleTaskPress = (taskId) => {
-    // Navigate to TaskDetailScreen with taskId as a parameter
-    navigation.navigate("TaskDetail", { taskId });
+  const handleBackToLoginPress = () => {
+    navigation.navigate("Auth");
   };
+
+  useEffect(() => {
+    // Set headerShown to false to hide the navigation header
+    navigation.setOptions({
+      headerShown: false,
+    });
+  }, []);
 
   return (
     <View style={styles.container}>
+      <Text style={styles.headerText}>Your Tasks</Text>
       {tasks.length === 0 ? (
-        <Text>No tasks found.</Text>
+        <Text style={styles.text}>No tasks found.</Text>
       ) : (
         <FlatList
           data={tasks}
@@ -100,13 +107,21 @@ const TaskListScreen = ({ navigation }) => {
         />
       )}
 
-      {/* Add the button to navigate to AddTaskScreen */}
-      <TouchableOpacity
-        style={styles.addButton}
-        onPress={() => navigation.navigate("AddTask")}
-      >
-        <Text style={styles.buttonText}>Add Task</Text>
-      </TouchableOpacity>
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity
+          style={styles.addButton}
+          onPress={() => navigation.navigate("AddTask")}
+        >
+          <Text style={styles.buttonText}>Add Task</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.backToLoginButton}
+          onPress={handleBackToLoginPress}
+        >
+          <Text style={styles.buttonText}>Back to Login</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -114,41 +129,90 @@ const TaskListScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
+    padding: 30,
   },
+
+  headerText: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 5,
+    marginTop: 10,
+    color: "#4364E6",
+    textAlign: "center",
+    textDecorationLine: "underline",
+  },
+
   taskContainer: {
-    marginBottom: 16,
-    borderColor: "#ccc",
+    marginBottom: 0,
+    marginTop: 25,
+    borderColor: "#4364E6",
+    backgroundColor: "#4364E6",
     borderWidth: 1,
-    padding: 16,
+    padding: 10,
     borderRadius: 5,
+    marginLeft: 16,
+    marginRight: 16,
   },
+
   title: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: "bold",
     marginBottom: 8,
+    color: "#fff",
+    textAlign: "center",
   },
+
   description: {
     fontSize: 16,
     marginBottom: 8,
+    color: "#fff",
+    textAlign: "center",
   },
+
   date: {
     fontSize: 14,
-    color: "#888",
+    color: "#fff",
+    textAlign: "center",
   },
+
+  text: {
+    fontSize: 14,
+    color: "#4364E6",
+    marginBottom: 20,
+    marginTop: 20,
+  },
+
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+
   addButton: {
-    backgroundColor: "blue",
+    backgroundColor: "#4364E6",
+    paddingVertical: 15,
+    alignItems: "center",
+    borderWidth: 2,
+    borderRadius: 8,
+    borderColor: "#fff",
+    flex: 1,
+    marginRight: 8,
+  },
+
+  backToLoginButton: {
+    backgroundColor: "#FF4A45",
     paddingVertical: 12,
     alignItems: "center",
-    borderRadius: 5,
-    position: "absolute",
-    bottom: 16,
-    left: 16,
-    right: 16,
+    borderWidth: 2,
+    borderRadius: 8,
+    borderColor: "#fff",
+    flex: 1,
+    marginLeft: 8,
   },
+
   buttonText: {
-    color: "white",
+    color: "#fff",
     fontSize: 18,
+    fontWeight: "bold",
   },
 });
 

@@ -61,9 +61,6 @@ const EditTaskScreen = ({ route, navigation }) => {
         title,
         details,
         date: Timestamp.fromDate(new Date(date)),
-        // You may want to convert the date back to a valid Firestore timestamp
-        // based on your data structure
-        // date: firestore.Timestamp.fromDate(new Date(date)),
       });
 
       // Navigate back to the task list screen
@@ -71,9 +68,22 @@ const EditTaskScreen = ({ route, navigation }) => {
     }
   };
 
+  useEffect(() => {
+    // Set headerShown to false to hide the navigation header
+    navigation.setOptions({
+      headerShown: true,
+      headerTitle: "Back", // Change the header title to 'Back'
+      headerTitleStyle: {
+        fontSize: 20,
+        fontWeight: "bold",
+        color: "#4364E6",
+      },
+    });
+  }, []);
+
   return (
     <View style={styles.container}>
-      <Text>Edit Task</Text>
+      <Text style={styles.label}>Edit Task</Text>
       <TextInput
         style={styles.input}
         placeholder="Title"
@@ -98,7 +108,7 @@ const EditTaskScreen = ({ route, navigation }) => {
         onConfirm={handleDateConfirm}
         onCancel={hideDatePicker}
       />
-      <Button title="Update Task" onPress={handleUpdateTask} />
+      <Button title="Update Task" color="#4364E6" onPress={handleUpdateTask} />
     </View>
   );
 };
@@ -108,10 +118,19 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
   },
+
+  label: {
+    fontSize: 20,
+    marginBottom: 10,
+    fontWeight: "bold",
+    color: "#4364E6",
+  },
+
   input: {
-    height: 40,
-    borderColor: "gray",
-    borderWidth: 1,
+    height: 45,
+    borderColor: "#4364E6",
+    borderWidth: 2,
+    borderRadius: 8,
     marginBottom: 16,
     padding: 8,
   },

@@ -1,6 +1,8 @@
 // src/screens/TaskDetailsScreen.js
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useEffect } from "react";
+import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
+import { deleteDoc, doc } from "firebase/firestore";
+import { firestore } from "../../firebaseConfig";
 
 const TaskDetailsScreen = ({ route, navigation }) => {
   const { params } = route;
@@ -16,36 +18,82 @@ const TaskDetailsScreen = ({ route, navigation }) => {
   }
 
   const handleEditPress = () => {
-    // Navigate to the screen where you can edit the task (you need to create this screen)
+    // Navigate to the edit task screen
     // Pass the task details to the edit screen
-    navigation.navigate('EditTask', { taskId: task.id });
+    navigation.navigate("EditTask", { taskId: task.id });
   };
 
-  const handleDeletePress = () => {
-    // Implement the logic to delete the task here
-    // After deleting, navigate back to the task list
-    // For now, let's just log a message
-    console.log('Task deleted');
-    // You might want to refresh the task list here, or use a state management solution
-    // to update the list without navigating back
-    navigation.navigate('TaskList');
+  const handleDeletePress = async () => {
+    // Display an alert before deleting the task
+    Alert.alert(
+      "Are you sure?",
+      "This action cannot be undone.",
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "Yes",
+          onPress: async () => {
+            try {
+              const taskId = task.id;
+              const taskDocRef = doc(firestore, "tasks", taskId);
+
+              // Delete the task from Firestore
+              await deleteDoc(taskDocRef);
+
+              // Log a message (you can remove this line in the final version)
+              console.log("Task deleted successfully");
+
+              // Navigate back to the task list
+              navigation.navigate("TaskList");
+            } catch (error) {
+              // Handle errors (e.g., display an error message)
+              console.error("Error deleting task:", error.message);
+            }
+          },
+          style: "destructive",
+        },
+      ],
+      { cancelable: true }
+    );
   };
+
+  useEffect(() => {
+    // Set headerShown to false to hide the navigation header
+    navigation.setOptions({
+      headerShown: false,
+    });
+  }, []);
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{task.title}</Text>
-      <Text style={styles.description}>{task.details}</Text>
-      <Text style={styles.date}>Date: {task.date.toDate().toLocaleString()}</Text>
+      <View style={styles.box}>
+        <Text style={styles.title}>{task.title}</Text>
+        <Text style={styles.description}>{task.details}</Text>
+        <Text style={styles.date}>
+          Due Date: {task.date.toDate().toLocaleString()}
+        </Text>
+      </View>
 
-      <TouchableOpacity style={styles.button} onPress={handleEditPress}>
-        <Text style={styles.buttonText}>Edit Task</Text>
-      </TouchableOpacity>
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity style={styles.button} onPress={handleEditPress}>
+          <Text style={styles.buttonText}>Edit Task</Text>
+        </TouchableOpacity>
 
-      <TouchableOpacity style={styles.buttonDelete} onPress={handleDeletePress}>
-        <Text style={styles.buttonText}>Delete Task</Text>
-      </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.buttonDelete}
+          onPress={handleDeletePress}
+        >
+          <Text style={styles.buttonText}>Delete Task</Text>
+        </TouchableOpacity>
+      </View>
 
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('TaskList')}>
+      <TouchableOpacity
+        style={styles.backbutton}
+        onPress={() => navigation.navigate("TaskList")}
+      >
         <Text style={styles.buttonText}>Back to Task List</Text>
       </TouchableOpacity>
     </View>
@@ -56,39 +104,77 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
+    marginTop: 25,
   },
+
+  box: {
+    backgroundColor: "#C9D2FF",
+    padding: 16,
+    borderRadius: 10,
+    borderColor: "#4364E6",
+    marginBottom: 16,
+    width: "100%",
+  },
+
   title: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 16,
+    color: "#4364E6",
+    textAlign: "center",
   },
+
   description: {
-    fontSize: 18,
+    fontSize: 20,
     marginBottom: 16,
+    color: "#4364E6",
+    textAlign: "center",
   },
+
   date: {
-    fontSize: 16,
-    color: '#888',
+    fontSize: 20,
+    color: "#4364E6",
     marginBottom: 24,
+    textAlign: "center",
   },
-  button: {
-    backgroundColor: 'blue',
-    paddingVertical: 12,
-    alignItems: 'center',
-    borderRadius: 5,
+
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     marginBottom: 8,
   },
 
-  buttonDelete: {
-    backgroundColor: 'black',
+  button: {
+    backgroundColor: "#4364E6",
     paddingVertical: 12,
-    alignItems: 'center',
+    alignItems: "center",
     borderRadius: 5,
-    marginBottom: 25,
+    flex: 1,
+    marginRight: 4,
+  },
+
+  buttonDelete: {
+    backgroundColor: "#FF4A45",
+    paddingVertical: 12,
+    alignItems: "center",
+    borderRadius: 5,
+    flex: 1,
+    marginLeft: 4,
+  },
+
+  backbutton: {
+    backgroundColor: "#4364E6",
+    paddingVertical: 12,
+    alignItems: "center",
+    borderRadius: 5,
+    marginTop: 20,
+    marginBottom: 8,
+    width: '100%',
   },
 
   buttonText: {
-    color: 'white',
+    color: "white",
+    fontWeight: "bold",
     fontSize: 18,
   },
 });

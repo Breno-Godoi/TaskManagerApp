@@ -1,18 +1,18 @@
 // src/screens/AddTaskScreen.js
-import React, { useState } from 'react';
-import { View, Text, Button, TextInput, StyleSheet } from 'react-native';
-import DateTimePickerModal from 'react-native-modal-datetime-picker';
-import { format } from 'date-fns';
-import { getAuth } from 'firebase/auth';
-import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
-import { firestore } from '../../firebaseConfig';
+import React, { useState, useEffect } from "react";
+import { View, Text, Button, TextInput, StyleSheet } from "react-native";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { format } from "date-fns";
+import { getAuth } from "firebase/auth";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { firestore } from "../../firebaseConfig";
 
 const AddTaskScreen = ({ navigation }) => {
-  const [title, setTitle] = useState('');
-  const [details, setDetails] = useState('');
+  const [title, setTitle] = useState("");
+  const [details, setDetails] = useState("");
   const [date, setDate] = useState(new Date());
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  const [selectedDateString, setSelectedDateString] = useState('');
+  const [selectedDateString, setSelectedDateString] = useState("");
 
   const showDatePicker = () => setDatePickerVisibility(true);
   const hideDatePicker = () => setDatePickerVisibility(false);
@@ -21,7 +21,7 @@ const AddTaskScreen = ({ navigation }) => {
     hideDatePicker();
     if (selectedDate) {
       setDate(selectedDate);
-      setSelectedDateString(format(selectedDate, 'yyyy-MM-dd HH:mm'));
+      setSelectedDateString(format(selectedDate, "yyyy-MM-dd HH:mm"));
     }
   };
 
@@ -31,7 +31,7 @@ const AddTaskScreen = ({ navigation }) => {
       const user = auth.currentUser;
 
       if (!user) {
-        console.log('User not logged in');
+        console.log("User not logged in");
         return;
       }
 
@@ -42,23 +42,36 @@ const AddTaskScreen = ({ navigation }) => {
         userId: user.uid,
       };
 
-      const tasksCollection = collection(firestore, 'tasks');
+      const tasksCollection = collection(firestore, "tasks");
 
       // Use `addDoc` to automatically generate a unique ID for the new task
       await addDoc(tasksCollection, taskData);
 
       // Reset form fields
-      setTitle('');
-      setDetails('');
+      setTitle("");
+      setDetails("");
       setDate(new Date());
-      setSelectedDateString('');
+      setSelectedDateString("");
 
       // Navigate back to the home screen or any other desired screen
-      navigation.navigate('TaskList');
+      navigation.navigate("TaskList");
     } catch (error) {
-      console.error('Error saving task:', error);
+      console.error("Error saving task:", error);
     }
   };
+
+  useEffect(() => {
+    // Set headerShown to false to hide the navigation header
+    navigation.setOptions({
+      headerShown: true,
+      headerTitle: "Back", // Change the header title to 'Back'
+      headerTitleStyle: {
+        fontSize: 20,
+        fontWeight: "bold",
+        color: "#4364E6",
+      },
+    });
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -81,11 +94,10 @@ const AddTaskScreen = ({ navigation }) => {
 
       <Text style={styles.label}>Task Date</Text>
       <View>
-        <Button title="Pick a date" onPress={showDatePicker} />
+        <Button title="Pick a date" onPress={showDatePicker} color="#5A6591" />
         <DateTimePickerModal
           isVisible={isDatePickerVisible}
           mode="datetime"
-          
           onConfirm={handleConfirm}
           onCancel={hideDatePicker}
         />
@@ -96,7 +108,7 @@ const AddTaskScreen = ({ navigation }) => {
         )}
       </View>
 
-      <Button title="Save Task" onPress={saveTask} />
+      <Button title="Save Task" onPress={saveTask} color="#4364E6" />
     </View>
   );
 };
@@ -106,16 +118,19 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
   },
-  
+
   label: {
-    fontSize: 18,
+    fontSize: 20,
     marginBottom: 8,
+    fontWeight: "bold",
+    color: "#4364E6",
   },
 
   inputTitle: {
     fontSize: 16,
-    borderColor: '#ccc',
-    borderWidth: 1,
+    borderColor: "#4364E6",
+    borderWidth: 2,
+    borderRadius: 8,
     marginBottom: 16,
     paddingVertical: 8,
     paddingHorizontal: 12,
@@ -123,8 +138,9 @@ const styles = StyleSheet.create({
 
   input: {
     fontSize: 16,
-    borderColor: '#ccc',
-    borderWidth: 1,
+    borderColor: "#4364E6",
+    borderWidth: 2,
+    borderRadius: 8,
     marginBottom: 16,
     paddingVertical: 8,
     paddingHorizontal: 12,
@@ -135,8 +151,8 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 20,
     fontSize: 20,
-    color: 'blue',
-    textAlign: 'center',
+    color: "#4364E6",
+    textAlign: "center",
   },
 });
 
