@@ -53,7 +53,7 @@ const AddTaskScreen = ({ navigation }) => {
       setDate(new Date());
       setSelectedDateString("");
 
-      // Navigate back to the home screen or any other desired screen
+      // Navigate back to the home screen
       navigation.navigate("TaskList");
     } catch (error) {
       console.error("Error saving task:", error);

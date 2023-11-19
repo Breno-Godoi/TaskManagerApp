@@ -38,7 +38,7 @@ const LoginScreen = ({ navigation }) => {
     <View style={styles.container}>
       <Text style={styles.title}>The Task Manager</Text>
       <Image
-        source={require('../../images/check-list.png')}
+        source={require('../images/check-list.png')}
         style={styles.image}
       />
       <TextInput
