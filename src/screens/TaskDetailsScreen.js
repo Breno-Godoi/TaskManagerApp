@@ -213,7 +213,7 @@ const styles = StyleSheet.create({
   },
 
   smsButton: {
-    backgroundColor: "#E6BB43",
+    backgroundColor: "#5A6591",
     paddingVertical: 12,
     alignItems: "center",
     borderRadius: 5,

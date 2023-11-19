@@ -1,20 +1,21 @@
-Project Details: Task Manager App
+# Task Manager App
 
-Use Case:
+## Overview
 
-Create a task management application where users can add, edit, and delete tasks. Include features such as setting deadlines and sending task details via email and SMS.
+Task Manager is a mobile application that helps users organize their tasks efficiently. It provides features for adding, editing, and deleting tasks, along with setting deadlines and sending task details via email and SMS.
 
-APIs and Technologies:
+## Technologies Used
 
-Expo Calendar API for setting deadlines and reminders.
-Expo SecureStore for storing sensitive data securely.
-Expo Mail Composer for sending task details via email.
-Expo SMS APIs for sending details via SMS.
-Firebase Firestore for storing user-specific task data.
-Firebase Authentication for user authentication.
+- **Expo Calendar API:** Enables users to set deadlines and receive reminders.
+- **Expo SecureStore:** Safely stores sensitive data, ensuring secure access.
+- **Expo Mail Composer:** Allows users to send task details via email directly from the app.
+- **Expo SMS APIs:** Facilitates sending task details via SMS.
+- **Firebase Firestore:** Stores and retrieves user-specific task data securely.
+- **Firebase Authentication:** Ensures secure user login and registration.
 
-Folder Structure:
+## Project Structure
 
+```plaintext
 /project-root
 │
 ├── /src
@@ -32,40 +33,30 @@ Folder Structure:
 ├── App.js
 ├── package.json
 └── ...
-Key Features:
 
-User Authentication: Utilize Firebase Authentication for secure user login and registration.
+## Key Features
 
-Task Management: Enable users to add, edit, and delete tasks with features like setting deadlines and priority levels.
+User Authentication: Secure user login and registration with Firebase Authentication.
 
-Deadline and Priority: Implement functionalities for users to set deadlines and prioritize tasks.
+Task Management: Add, edit, and delete tasks with features such as setting deadlines and priority levels.
+
+Deadline and Priority: Set deadlines for tasks and prioritize them based on urgency.
 
 Data Storage: Utilize Firebase Firestore to securely store and retrieve user-specific task data.
 
-Security: Enhance security by utilizing Expo SecureStore for the secure storage of sensitive data.
+Security: Enhance security by utilizing Expo SecureStore for the safe storage of sensitive data.
 
+## To be Implemented
+Priority Levels: Implement a system for users to categorize tasks based on priority levels.
 
-Steps Completed So Far:
+Task Categories: Allow users to categorize tasks into different groups or categories for better organization.
 
-Project Initialization: Created a new React Native project using Expo.
+Task Completion: Add a completion feature for the tasks aiming to maintain task history.
 
-Navigation Setup: Configured the navigation structure using React Navigation.
+## Usage
+Follow these steps to run the project locally:
 
-Screens Creation: Developed screens for Home, AddTask, TaskDetail, SignIn, and SignUp.
-
-Firebase Integration: Integrated Firebase with the project using firebaseConfig.js.
-
-Authentication API: Implemented Firebase Authentication for user login and registration.
-
-
-Next Steps:
-
-Refactor Home.js: Based on the provided MainScreen.js, update the Home.js screen for improved functionality.
-
-Remove or Refactor index.js: Assess the need for the index.js file and refactor or remove it accordingly.
-
-Review and Adjust File Structure: Ensure the file structure is optimal; make adjustments as necessary.
-
-Continue Implementation: Progress with the implementation of task management features using Firebase Firestore.
-
-Error Handling: Address any errors or issues encountered during development for a smooth user experience.
+Clone the repository.
+Install dependencies with npm install.
+Start the Expo development server with npm start.
+Feel free to explore and contribute to make Task Manager even more effective for users!
