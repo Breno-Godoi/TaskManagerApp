@@ -2,6 +2,9 @@
 import React, { useEffect } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import { deleteDoc, doc } from "firebase/firestore";
+import { Linking } from 'react-native';
+import * as MailComposer from 'expo-mail-composer';
+import * as SMS from 'expo-sms';
 import { firestore } from "../../firebaseConfig";
 
 const TaskDetailsScreen = ({ route, navigation }) => {
@@ -60,12 +63,30 @@ const TaskDetailsScreen = ({ route, navigation }) => {
     );
   };
 
+  const handleSendEmail = () => {
+    const subject = 'Task Details';
+    const body = `Title: ${task.title}\nDetails: ${task.details}\nDue Date: ${task.date.toDate().toLocaleString()}`;
+
+    MailComposer.composeAsync({
+      recipients: ['recipient@example.com'],
+      subject,
+      body,
+    });
+  };
+
+  const handleSendSMS = () => {
+    const message = `Title: ${task.title}\nDetails: ${task.details}\nDue Date: ${task.date.toDate().toLocaleString()}`;
+
+    SMS.sendSMSAsync([], message);
+  };
+
   useEffect(() => {
     // Set headerShown to false to hide the navigation header
     navigation.setOptions({
       headerShown: false,
     });
   }, []);
+
 
   return (
     <View style={styles.container}>
@@ -87,6 +108,16 @@ const TaskDetailsScreen = ({ route, navigation }) => {
           onPress={handleDeletePress}
         >
           <Text style={styles.buttonText}>Delete Task</Text>
+        </TouchableOpacity>
+      </View>
+
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity style={styles.emailButton} onPress={handleSendEmail}>
+          <Text style={styles.buttonText}>Send by Email</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.smsButton} onPress={handleSendSMS}>
+          <Text style={styles.buttonText}>Send by SMS</Text>
         </TouchableOpacity>
       </View>
 
@@ -170,6 +201,24 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 8,
     width: '100%',
+  },
+
+  emailButton: {
+    backgroundColor: "#5A6591",
+    paddingVertical: 12,
+    alignItems: "center",
+    borderRadius: 5,
+    flex: 1,
+    marginRight: 4,
+  },
+
+  smsButton: {
+    backgroundColor: "#E6BB43",
+    paddingVertical: 12,
+    alignItems: "center",
+    borderRadius: 5,
+    flex: 1,
+    marginLeft: 4,
   },
 
   buttonText: {

@@ -2,27 +2,28 @@ Project Details: Task Manager App
 
 Use Case:
 
-Create a task management application where users can add, edit, and delete tasks. Include features such as setting deadlines, priority levels, and categorizing tasks.
+Create a task management application where users can add, edit, and delete tasks. Include features such as setting deadlines and sending task details via email and SMS.
 
 APIs and Technologies:
 
 Expo Calendar API for setting deadlines and reminders.
 Expo SecureStore for storing sensitive data securely.
+Expo Mail Composer for sending task details via email.
+Expo SMS APIs for sending details via SMS.
 Firebase Firestore for storing user-specific task data.
 Firebase Authentication for user authentication.
 
 Folder Structure:
 
-plaintext
-Copy code
 /project-root
 │
 ├── /src
 │   ├── /screens
 │   │   ├── AddTaskScreen.js
-│   │   ├── HomeScreen.js
+│   │   ├── EditTaskScreen.js
 │   │   ├── LoginScreen.js
 │   │   ├── RegisterScreen.js
+│   │   ├── TaskDetailsScreen.js
 │   │   └── TaskListScreen.js
 │   ├── /navigation
 │   │   └── AppNavigator.js
