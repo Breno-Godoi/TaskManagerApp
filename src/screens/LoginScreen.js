@@ -1,6 +1,6 @@
 // src/screens/LoginScreen.js
 import React, { useEffect, useState } from "react";
-import { View, Text, TextInput, Button, Alert, StyleSheet } from "react-native";
+import { View, Text, TextInput, Button, Alert, Image, StyleSheet } from "react-native";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import * as SecureStore from "expo-secure-store";
 
@@ -36,7 +36,11 @@ const LoginScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Welcome to The Task Manager</Text>
+      <Text style={styles.title}>The Task Manager</Text>
+      <Image
+        source={require('../../images/check-list.png')}
+        style={styles.image}
+      />
       <TextInput
         style={styles.input}
         placeholder="Email"
@@ -50,7 +54,7 @@ const LoginScreen = ({ navigation }) => {
         value={password}
         onChangeText={setPassword}
       />
-      <Button title="Login" color="#4364E6" onPress={handleLogin} />
+      <Button title="   Login   " color="#4364E6" onPress={handleLogin}/>
       <Text style={styles.text}>Or</Text>
       <Button
         title="Register"
@@ -66,6 +70,15 @@ const styles = StyleSheet.create({
     flex: 1,
     margin: 20,
     marginTop: 60,
+    alignItems: 'center', // Center horizontally
+    justifyContent: 'center', // Center vertically
+  },
+
+  image: {
+    width: 180,
+    height: 180,
+    marginBottom: 30,
+    
   },
 
   title: {
@@ -92,7 +105,9 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginBottom: 20,
     padding: 10,
+    width: '80%',
   },
+
 });
 
 export default LoginScreen;
