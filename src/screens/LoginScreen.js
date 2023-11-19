@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, TextInput, Button, Alert, StyleSheet } from "react-native";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import * as SecureStore from "expo-secure-store";
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -11,6 +12,10 @@ const LoginScreen = ({ navigation }) => {
     try {
       const auth = getAuth();
       await signInWithEmailAndPassword(auth, email, password);
+
+      // Save the user's email securely
+      await SecureStore.setItemAsync("userEmail", email);
+
       navigation.navigate("TaskList");
     } catch (error) {
       console.error("Error logging in:", error);
@@ -51,8 +56,6 @@ const LoginScreen = ({ navigation }) => {
         title="Register"
         onPress={handleNavigateToRegister}
         color="#4364E6"
-        
-
       />
     </View>
   );
@@ -68,18 +71,18 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 30,
     marginBottom: 30,
-    textAlign: 'center',
-    fontWeight: 'bold',
-    color:'#4364E6'
+    textAlign: "center",
+    fontWeight: "bold",
+    color: "#4364E6",
   },
 
   text: {
     fontSize: 15,
     marginBottom: 15,
     marginTop: 15,
-    textAlign: 'center',
-    fontWeight: 'bold',
-    color:'#4364E6'
+    textAlign: "center",
+    fontWeight: "bold",
+    color: "#4364E6",
   },
 
   input: {
